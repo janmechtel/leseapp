@@ -1,17 +1,13 @@
-<script  lang="ts">
+<script lang="ts">
 import PictureUpload from './PictureUpload.vue'
 
 export default {
   components: {
     PictureUpload
   },
-  methods: {
-    processFile(file: any) {
-      console.log("processFile");
-      console.log(file.target.files[0]);
-    }, 
-  }
-} 
+}
+
+
 </script>
 
 <template>
