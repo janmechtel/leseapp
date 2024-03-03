@@ -1,10 +1,6 @@
 <script  lang="ts">
-import PictureUpload from './PictureUpload.vue'
 
 export default {
-  components: {
-    PictureUpload
-  },
   methods: {
     processFile(file: any) {
       console.log("processFile");
@@ -13,9 +9,12 @@ export default {
   }
 } 
 </script>
-
 <template>
-  <main>
-    <PictureUpload />
-  </main>
+  
+  <div>
+    <p>Bitte Bild aufnehmen oder hochladen</p>
+    <form @submit.prevent="processFile" >
+      <input type="file" accept="image/*" @change="processFile"/>
+    </form>
+  </div>
 </template>
