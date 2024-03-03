@@ -12,6 +12,6 @@ export default {
 
 <template>
   <main>
-    <PictureUpload />
+    <PictureUpload />    
   </main>
 </template>

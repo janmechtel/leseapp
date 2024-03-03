@@ -4,6 +4,8 @@ import axios from 'axios';
 import { defineComponent } from 'vue';
 
 import defaultImgLink from './assets/lego.jpg';
+const apiKey = import.meta.env.VITE_GOOGLE_CLOUD_API_KEY;
+console.log(apiKey)
 
 export default defineComponent({
   data() {
@@ -16,7 +18,7 @@ export default defineComponent({
   methods: {
     processFile(file: any) {
       console.log("processFile");
-      console.log(import.meta.env.VITE_GOOGLE_CLOUD_VISION_API_KEY)
+      
       console.log(file.target.files[0]);
     }, 
     onFileChange(e: any) {
@@ -32,7 +34,7 @@ export default defineComponent({
       reader.readAsDataURL(file);
     },
     async submitToGoogleCloudVision() {
-      const url = `https://vision.googleapis.com/v1/images:annotate?key=${import.meta.env.VITE_GOOGLE_CLOUD_VISION_API_KEY}`;
+      const url = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
       const body = {
         requests: [
           {
@@ -57,7 +59,29 @@ export default defineComponent({
       } catch (error) {
         console.error(error);
       }
-    }
+    },
+    async speakText() {
+      if (!this.text) return;
+      
+      const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
+      const data = {
+        input: {text: this.text},
+        voice: {languageCode: 'de-DE', ssmlGender: 'NEUTRAL'},
+        audioConfig: {audioEncoding: 'MP3'},
+      };
+
+      try {
+        const response = await axios.post(url, data);
+        const audioContent = response.data.audioContent;
+        if (audioContent) {
+          const audioSrc = `data:audio/mp3;base64,${audioContent}`;
+          const audio = new Audio(audioSrc);
+          audio.play();
+        }
+      } catch (error) {
+        console.error('Error calling the text-to-speech API', error);
+      }
+    },
   }
 });
 </script>
@@ -69,5 +93,8 @@ export default defineComponent({
     <button @click="submitToGoogleCloudVision">Los</button>
     <img :src="image" />
     <p>{{ text }}</p>
+  </div>
+  <div>
+    <button @click="speakText">Vorlesen</button>
   </div>
 </template>
