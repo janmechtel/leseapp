@@ -25,11 +25,15 @@ export default defineComponent({
       const files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       this.createImage(files[0]);
+      
     },
     createImage(file: File) {
       let reader = new FileReader();
       reader.onload = (e) => {
         this.image = e.target?.result as string;
+        this.submitToGoogleCloudVision().then(() => {
+          this.speakText();
+        });
       };
       reader.readAsDataURL(file);
     },
@@ -89,8 +93,7 @@ export default defineComponent({
   
   <div>
     <p>Bitte Bild aufnehmen oder hochladen</p>
-    <input type="file" accept="image/*" @change="onFileChange" />
-    <button @click="submitToGoogleCloudVision">Los</button>
+    <input type="file" accept="image/*" @change="onFileChange" capture="environment"/>
     <img :src="image" />
     <p>{{ text }}</p>
   </div>
