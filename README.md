@@ -2,6 +2,22 @@
 
 This template should help get you started developing with Vue 3 in Vite.
 
+## TOODs
+
+### Now
+
+
+[ ] UI fits the screen, maybe a bigger button
+[ ] (waiting indicator for the upload)
+[ ] Host it somewhere - extract secrets
+
+### Later
+
+- Which part to read - let the kid indicate
+- Which word should the kid read - Karoke style visualization.
+
+
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
