@@ -4,6 +4,7 @@ import axios from 'axios';
 import { defineComponent } from 'vue';
 
 import defaultImgLink from './assets/lego.jpg';
+import { access } from 'fs';
 const apiKey = import.meta.env.VITE_GOOGLE_CLOUD_API_KEY;
 console.log(apiKey)
 
@@ -18,25 +19,32 @@ interface SynthesizeSpeechResponse {
 }
 
 
-async function fetchAccessToken(): Promise<string> {
-  const response = await fetch('https://europe-central2-leseapp-416115.cloudfunctions.net/myCloudFunction');
-  if (!response.ok) {
-    throw new Error('Failed to fetch access token');
-  }
-  const data = await response.json();
-  // console.log(data);
-  return data.accessToken; // Assuming the token is returned in this field
-}
+
 
 export default defineComponent({
   data() {
 
     return {
       image: defaultImgLink,
-      text: "27 190 2 Der Käpt'n will eine Piraten-Turmuhr, aber ich kann die Kiste mit der Bauanleitung einfach nicht öffnen. Hilfst du mir?\" A Annehmen 8 Abbrechen NE"
+      text: "27 190 2 Der Käpt'n will eine Piraten-Turmuhr, aber ich kann die Kiste mit der Bauanleitung einfach nicht öffnen. Hilfst du mir?\" A Annehmen 8 Abbrechen NE",
+      accessToken: ""
     };
   },
   methods: {
+    async fetchAccessToken(): Promise<string> {
+      // Check if accessToken already exists and return it
+      if (this.accessToken) {
+        return this.accessToken;
+      }
+      const response = await fetch('https://europe-central2-leseapp-416115.cloudfunctions.net/myCloudFunction');
+      if (!response.ok) {
+        throw new Error('Failed to fetch access token');
+      }
+      const data = await response.json();
+      // console.log(data);
+      this.accessToken = data.accessToken; // Store the fetched token
+      return data.accessToken;
+    },
     processFile(file: any) {
       console.log("processFile");
       
@@ -59,7 +67,9 @@ export default defineComponent({
       reader.readAsDataURL(file);
     },
     async submitToGoogleCloudVision() {
-      const url = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
+      const accessToken = await this.fetchAccessToken(); // Fetch the access token
+      
+      const url = `https://vision.googleapis.com/v1/images:annotate`;
       const body = {
         requests: [
           {
@@ -76,7 +86,12 @@ export default defineComponent({
       };
 
       try {
-        const response = await axios.post(url, body);
+        const response = await axios.post(url, body,
+          {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            }
+          });
         console.log(response.data);
         this.text = response.data.responses[0].fullTextAnnotation.text;
         console.log(this.text);
@@ -87,7 +102,7 @@ export default defineComponent({
     },
 
     async speakText() {
-      const accessToken = await fetchAccessToken(); // Fetch the access token
+      const accessToken = await this.fetchAccessToken(); // Fetch the access token
 
       const requestOptions: RequestInit = {
         method: 'POST',
