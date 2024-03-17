@@ -19,7 +19,7 @@ interface SynthesizeSpeechResponse {
 
 
 async function fetchAccessToken(): Promise<string> {
-  const response = await fetch('https://b371-158-181-76-113.ngrok-free.app');
+  const response = await fetch('https://f62a-158-181-76-113.ngrok-free.app');
   if (!response.ok) {
     throw new Error('Failed to fetch access token');
   }
