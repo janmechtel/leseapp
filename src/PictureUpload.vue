@@ -19,12 +19,12 @@ interface SynthesizeSpeechResponse {
 
 
 async function fetchAccessToken(): Promise<string> {
-  const response = await fetch('https://f62a-158-181-76-113.ngrok-free.app');
+  const response = await fetch('https://europe-central2-leseapp-416115.cloudfunctions.net/myCloudFunction');
   if (!response.ok) {
     throw new Error('Failed to fetch access token');
   }
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
   return data.accessToken; // Assuming the token is returned in this field
 }
 

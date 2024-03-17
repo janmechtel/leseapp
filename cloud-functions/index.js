@@ -1,13 +1,24 @@
 
 const {GoogleAuth} = require('google-auth-library');
+const { json } = require('stream/consumers');
 
 exports.myCloudFunction = async (req, res) => {
   
   // Create a JWT client with the service account email
   const targetAudience = 'https://texttospeech.googleapis.com/v1/text:synthesize';
+  const base64String = process.env.KEY_JSON_BASE64;
+  // console.log(base64String);
+  
+  const jsonString = Buffer.from(base64String, 'base64').toString('ascii');
+  // console.log('-----');
+  // console.log(jsonString);
+  const keyJson = JSON.parse(
+    jsonString
+  );
+  
   const auth = new GoogleAuth({
     // Specify the path to your service account key file here
-    keyFilename: 'keys/leseapp-416115-ce11ae241b9c.json',
+    credentials: keyJson,
     // Specify the scopes your application requests here
     scopes: ['https://www.googleapis.com/auth/cloud-platform']
   });

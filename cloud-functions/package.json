@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "functions-framework --target=myCloudFunction --set-env-vars SERVICE_ACCOUNT_EMAIL=leseapp-416115@appspot.gserviceaccount.com --watch --debug",
+    "start": "node -r dotenv/config node_modules/.bin/functions-framework --target=myCloudFunction",
     "watch": "nodemon --exec 'npm start'"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/functions-framework": "^3.3.0",
+    "dotenv": "^16.4.5",
     "google-auth-library": "^8.5.0"
   },
   "devDependencies": {
