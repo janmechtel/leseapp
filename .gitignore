@@ -1,3 +1,5 @@
+cloud-functions/keys/*
+
 # Logs
 logs
 *.log

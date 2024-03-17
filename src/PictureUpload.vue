@@ -7,6 +7,27 @@ import defaultImgLink from './assets/lego.jpg';
 const apiKey = import.meta.env.VITE_GOOGLE_CLOUD_API_KEY;
 console.log(apiKey)
 
+interface SynthesizeSpeechRequest {
+  input: { text: string };
+  voice: { languageCode: string; ssmlGender: string };
+  audioConfig: { audioEncoding: string };
+}
+
+interface SynthesizeSpeechResponse {
+  audioContent: string; // Base64-encoded string of audio content
+}
+
+
+async function fetchAccessToken(): Promise<string> {
+  const response = await fetch('https://b371-158-181-76-113.ngrok-free.app');
+  if (!response.ok) {
+    throw new Error('Failed to fetch access token');
+  }
+  const data = await response.json();
+  console.log(data);
+  return data.accessToken; // Assuming the token is returned in this field
+}
+
 export default defineComponent({
   data() {
 
@@ -64,27 +85,33 @@ export default defineComponent({
         console.error(error);
       }
     },
-    async speakText() {
-      if (!this.text) return;
-      
-      const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
-      const data = {
-        input: {text: this.text},
-        voice: {languageCode: 'de-DE', ssmlGender: 'NEUTRAL'},
-        audioConfig: {audioEncoding: 'MP3'},
-      };
 
-      try {
-        const response = await axios.post(url, data);
-        const audioContent = response.data.audioContent;
-        if (audioContent) {
-          const audioSrc = `data:audio/mp3;base64,${audioContent}`;
-          const audio = new Audio(audioSrc);
-          audio.play();
-        }
-      } catch (error) {
-        console.error('Error calling the text-to-speech API', error);
-      }
+    async speakText() {
+      const accessToken = await fetchAccessToken(); // Fetch the access token
+
+      const requestOptions: RequestInit = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          input: {text: this.text},
+          voice: {languageCode: 'de-DE', ssmlGender: 'NEUTRAL'},
+          audioConfig: {audioEncoding: 'MP3'},
+        })
+      };
+    const response = await fetch('https://texttospeech.googleapis.com/v1/text:synthesize', requestOptions);
+    if (!response.ok) {
+      throw new Error('Failed to synthesize text');
+    }
+    const data: SynthesizeSpeechResponse = await response.json();
+    const audioContent = data.audioContent;
+    if (audioContent) {
+      const audioSrc = `data:audio/mp3;base64,${audioContent}`;
+      const audio = new Audio(audioSrc);
+      audio.play();
+    }
     },
   }
 });
