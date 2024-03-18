@@ -2,14 +2,17 @@
 
 Try it from mobile at [https://janmechtel.github.io/lesefluss/](https://janmechtel.github.io/lesefluss/)
 
+
+## Deploy
+
+- `npm run deploy`
+
 ## TOODs
 
 ### Now
 
-
-[ ] UI fits the screen, maybe a bigger button
-[ ] (waiting indicator for the upload)
-[ ] Host it somewhere - extract secrets
+[ ] Better UI (remove debug img/buttons)
+[ ] (waiting indicator for the upload?)
 
 ### Later
 
