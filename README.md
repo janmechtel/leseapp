@@ -1,6 +1,6 @@
-# lesefluss1
+# LeseApp
 
-This template should help get you started developing with Vue 3 in Vite.
+Try it from mobile at [https://janmechtel.github.io/lesefluss/](https://janmechtel.github.io/lesefluss/)
 
 ## TOODs
 
