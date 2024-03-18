@@ -1,6 +1,6 @@
 # LeseApp
 
-Try it from mobile at [https://janmechtel.github.io/lesefluss/](https://janmechtel.github.io/lesefluss/)
+Try it from mobile at [https://janmechtel.github.io/leseapp/](https://janmechtel.github.io/leseapp/)
 
 
 ## Deploy
