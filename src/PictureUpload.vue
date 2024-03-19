@@ -3,7 +3,6 @@
 import axios from 'axios';
 import { defineComponent } from 'vue';
 
-import defaultImgLink from './assets/lego.jpg';
 import { access } from 'fs';
 const apiKey = import.meta.env.VITE_GOOGLE_CLOUD_API_KEY;
 console.log(apiKey)
@@ -25,8 +24,8 @@ export default defineComponent({
   data() {
 
     return {
-      image: defaultImgLink,
-      text: "27 190 2 Der Käpt'n will eine Piraten-Turmuhr, aber ich kann die Kiste mit der Bauanleitung einfach nicht öffnen. Hilfst du mir?\" A Annehmen 8 Abbrechen NE",
+      image: "",
+      text: "",
       accessToken: ""
     };
   },
@@ -132,15 +131,15 @@ export default defineComponent({
 });
 </script>
 <template>
-  
+  <h1>LeseApp</h1>  
   <div>
-    <p>Bitte Bild aufnehmen oder hochladen</p>
+    <p>Bitte Bild aufnehmen</p>
     <input type="file" accept="image/*" @change="onFileChange" capture="environment"/>
     <img :src="image" />
-    <p>{{ text }}</p>
   </div>
-  <div>
-    <button @click="speakText">Vorlesen</button>
+  <div v-if="text">
+    <p>{{ text }}</p>
+    <button @click="speakText">Nochmal vorlesen</button>
   </div>
 </template>
 
