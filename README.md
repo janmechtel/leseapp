@@ -1,24 +1,26 @@
 # LeseApp
 
+A simple app to help kids learn to read.
+
 Try it from mobile at [https://janmechtel.github.io/leseapp/](https://janmechtel.github.io/leseapp/)
 
+1. Take a picture of the text to be read
+2. Text is read out loud 
+3. Kid is asked to read parts of the text (Coming soon)
+
+## Setup
+- using Google Cloud Vision for OCR and Google Speech for Text to Speech
+- using simple Google Cloud Function to provide temporary access tokens to the front end
+- using Github Pages for Hosting
+
+
+## Local Development
+
+- npm install
+- npm run dev
 
 ## Deploy
-
 - `npm run deploy`
-
-## TOODs
-
-### Now
-
-[ ] Better UI (remove debug img/buttons)
-[ ] (waiting indicator for the upload?)
-
-### Later
-
-- Which part to read - let the kid indicate
-- Which word should the kid read - Karoke style visualization.
-
 
 
 ## Recommended IDE Setup
