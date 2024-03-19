@@ -10,6 +10,8 @@ Try it from mobile at [https://janmechtel.github.io/leseapp/](https://janmechtel
 
 ![image](https://github.com/janmechtel/leseapp/assets/1004314/ef8f8284-b5d1-4be1-a509-57c09d1cc548)
 
+Quality level: [home-cooked meal]([url](https://news.ycombinator.com/item?id=38877423))
+
 ## Setup
 - using Google Cloud Vision for OCR and Google Speech for Text to Speech
 - using simple Google Cloud Function to provide temporary access tokens to the front end
